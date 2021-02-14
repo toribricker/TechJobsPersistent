@@ -1,12 +1,33 @@
-﻿<h1>Add a Job</h1>
+﻿@model TechJobsPersistent.Models.AddJobViewModel
+
+@{
+<h1>Add a Job</h1>
 
 <form asp-controller="Home" asp-action="ProcessAddJobForm" method="post">
     <div class="form-group">
-        <label>Name</label>
-        <input class="form-control" />
+        <label asp-for="Name">Name</label>
+        <input asp-for="Name" class="form-control" />
         <span></span>
     </div>
 
-    <input type="submit" value="Add Job" />
-</form>
+    <div class="form-group">
+        <label asp-for="EmployerId">Employer</label>
 
+        @*@Html.DropDownListFor(x => Model.Employers, new SelectList(Model.Employers, "Value", "Text"), htmlAttributes: new { @class = "form-control", id = "Employers"})*@
+        <select asp-for="EmployerId" asp-items="@Model.Employers"></select>
+        <a asp-controller="Employer" asp-action="Add">Add Employer</a>
+    </div>
+    <input type="submit" value="Add Job" />
+
+    <div class="form-group">
+        @foreach (Skill skill in Model.Skills)
+        {
+<label asp-for="@skill.Id">@skill.Name</label>
+                <input type="checkbox" name="SelectedSkills" value="@skill.Id" />            }
+    </div>
+    <a asp-controller="Skill" asp-action="Add">add skill</a>
+
+    <input class="form-control" type="submit" value="Add Job" />
+
+</form>
+    }
